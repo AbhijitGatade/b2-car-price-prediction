@@ -48,42 +48,55 @@
       <li>Kilometers Driven</li>
       <li>Fuel Type</li>
     </ul>
+    <form action="/car-project-result">
     <div class="col-lg-8 img-thumbnail p-3">
       <div class="row mt-3">
         <div class="col-4">Company</div>
         <div class="col-8">
-          <select class="form-control">
+          <select class="form-control" name="company" required>
             <option value="">Select</option>
+            {% for company in companies %}
+            <option value="{{ company }}">{{ company }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-4">Name</div>
         <div class="col-8">
-          <select class="form-control">
+          <select class="form-control" name="name" required>
             <option value="">Select</option>
+            {% for name in names %}
+            <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-4">Year</div>
         <div class="col-8">
-          <select class="form-control">
+          <select class="form-control" name="year" required>
             <option value="">Select</option>
+            {% for year in range(1990, 2025) %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-4">Kilometers Driven</div>
         <div class="col-8">
-          <input type="number" class="form-control" min="0" />
+          <input type="number" class="form-control" min="0"  name="kms_driven" required/>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-4">Fuel Type</div>
         <div class="col-8">
-          <select class="form-control">
+          <select class="form-control"  name="fuel_type" required>
             <option value="">Select</option>
+            {% for fuel_type in fuel_types %}
+            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
@@ -93,6 +106,7 @@
         </div>
       </div>
     </div>
+  </form>
   </div>
 </body>
 
