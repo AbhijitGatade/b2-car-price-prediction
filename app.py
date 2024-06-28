@@ -1,6 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import numpy as np
+import pandas as pd
+import pickle as pkl
 
 app = Flask(__name__)
+ds = pd.read_csv("cleaned_data.csv")
+lra = pkl.load(open("LRA.pkl", "rb"))
+
 
 @app.route("/")
 def hello_world():
@@ -8,7 +14,25 @@ def hello_world():
 
 @app.route("/car-project")
 def car_project():
-    return render_template("car-project.html")
+    companies = sorted(ds["company"].unique())
+    names = sorted(ds["name"].unique())
+    fuel_types = sorted(ds["fuel_type"].unique())
+    return render_template("car-project.html", companies = companies, names = names, fuel_types = fuel_types)
+
+
+@app.route("/car-project-result")
+def car_project_result():
+    company = request.args.get("company")
+    name = request.args.get("name")
+    year = request.args.get("year")
+    kms_driven = request.args.get("kms_driven")
+    fuel_type = request.args.get("fuel_type")
+
+    mydata = [company, name, year, kms_driven, fuel_type]
+    question = pd.DataFrame(columns = ["company", "name", "year", "kms_driven", "fuel_type"], data = np.array(mydata).reshape(1, 5))
+    result = round(lra.predict(question)[0,0])
+
+    return render_template("car-project-result.html", company = company, name = name, year = year, kms_driven = kms_driven, fuel_type = fuel_type, result = result)
 
 @app.route("/about")
 def about():
